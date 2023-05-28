@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Platform , Vibration  } from 'react-native';
+import { View, StyleSheet, Text, Platform, Vibration } from 'react-native';
 import { ProgressBar } from 'react-native-paper';
 import { useKeepAwake } from 'expo-keep-awake';
 import { Countdown } from '../components/Countdown';
-import { RoundedButton } from '../components/RoundedButten';
-import { fontSizes, spacing } from '../utils/sizes';
+import { RoundedButton } from '../components/RoundedButton';
+import { spacing } from '../utils/sizes';
 import { colors } from '../utils/colors';
 import { Timing } from './Timing';
 
@@ -18,7 +18,7 @@ const PATTERN = [
   1 * ONE_SECOND_IN_MS,
 ];
 
-export const Timer = ({ focusSubject , clearSubject, onTimerEnd }) => {
+export const Timer = ({ focusSubject, clearSubject, onTimerEnd }) => {
   useKeepAwake();
   const [isStarted, setIsStarted] = useState(false);
   const [progress, setProgress] = useState(1);
@@ -31,7 +31,7 @@ export const Timer = ({ focusSubject , clearSubject, onTimerEnd }) => {
     reset();
     onTimerEnd(focusSubject);
   };
- 
+
   return (
     <View style={styles.container}>
       <View style={styles.countdown}>
@@ -41,13 +41,11 @@ export const Timer = ({ focusSubject , clearSubject, onTimerEnd }) => {
           onProgress={setProgress}
           onEnd={onEnd}
         />
-
         <View style={{ paddingTop: spacing.xxl }}>
-          <Text style={styles.title}>Focusing on</Text>
+          <Text style={styles.title}>Focusing on:</Text>
           <Text style={styles.task}>{focusSubject}</Text>
         </View>
       </View>
-
       <View style={{ paddingTop: spacing.sm }}>
         <ProgressBar
           progress={progress}
@@ -55,18 +53,17 @@ export const Timer = ({ focusSubject , clearSubject, onTimerEnd }) => {
           style={{ height: spacing.sm }}
         />
       </View>
-        <View style={styles.timingWrapper}>
-          <Timing onChangeTime={setMinutes} />
-        </View>
+      <View style={styles.timingWrapper}>
+        <Timing onChangeTime={setMinutes} />
+      </View>
       <View style={styles.buttonWrapper}>
-        {!isStarted && (
+        {!isStarted ? (
           <RoundedButton title="start" onPress={() => setIsStarted(true)} />
-        )}
-        {isStarted && (
+        ) : (
           <RoundedButton title="pause" onPress={() => setIsStarted(false)} />
         )}
       </View>
-        <View style={styles.clearSubjectWrapper}>
+      <View style={styles.clearSubjectWrapper}>
         <RoundedButton size={50} title="-" onPress={clearSubject} />
       </View>
     </View>
@@ -74,26 +71,25 @@ export const Timer = ({ focusSubject , clearSubject, onTimerEnd }) => {
 };
 
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
-  },
-    timingWrapper: {
-    flex: 0.1,
-    flexDirection: 'row',
-    paddingTop: spacing.xxl,
   },
   countdown: {
     flex: 0.5,
     alignItems: 'center',
     justifyContent: 'center',
   },
+  timingWrapper: {
+    flex: 0.1,
+    flexDirection: 'row',
+    paddingTop: spacing.xxl,
+  },
   buttonWrapper: {
     flex: 0.3,
     flexDirection: 'row',
-    padding: 15,
-    alignItems: 'center',
+    padding: spacing.md,
     justifyContent: 'center',
+    alignItems: 'center',
   },
   clearSubjectWrapper: {
     flexDirection: 'row',

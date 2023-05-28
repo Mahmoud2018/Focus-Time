@@ -61,4 +61,4 @@ const styles = StyleSheet.create({
     padding: spacing.lg,
     backgroundColor: 'rgba(94, 132, 226, 0.3)',
   },
-});
+}); 
